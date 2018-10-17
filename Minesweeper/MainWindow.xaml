@@ -11,8 +11,9 @@
     <Grid x:Name="grid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Label Content="Rows" Margin="307,68,434,300"></Label>
         <TextBox x:Name="Rows" HorizontalAlignment="Center" Height="60" Margin="307,112,425,0" VerticalAlignment="Top" Width="60" PreviewTextInput="NumberValidationTextBox" FontSize="43"/>
-        <TextBox x:Name="Columns" HorizontalAlignment="Center" Height="60" Margin="429,112,303,0" VerticalAlignment="Top" Width="60" PreviewTextInput="NumberValidationTextBox" FontSize="43"/>
+        <ComboBox x:Name="Difficulty" Text="Difficulty" HorizontalAlignment="Center" Height="57" Margin="312,196,304,0" VerticalAlignment="Top" Width="178" PreviewTextInput="NumberValidationTextBox" FontSize="43"/>
+        <TextBox x:Name="Columns" HorizontalAlignment="Center" Height="60" Margin="429,112,303,0" VerticalAlignment="Top" Width="60" FontSize="43"/>
         <Label Content="Columns" Margin="429,68,295,300"/>
-        <Button Content="Play" HorizontalAlignment="Left" Margin="307,233,0,0" VerticalAlignment="Top" Width="182" Height="51" Click="Button_Click"/>
+        <Button Content="Play" HorizontalAlignment="Left" Margin="307,282,0,0" VerticalAlignment="Top" Width="182" Height="51" Click="Button_Click"/>
     </Grid>
 </Window>

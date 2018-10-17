@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -37,66 +38,66 @@ namespace Minesweeper
         static BitmapImage box7 = new BitmapImage();
         static BitmapImage box8 = new BitmapImage();
 
-        static bool running = false;
-
+        public List<List<Image>> MineField = new List<List<Image>>();
+        Random _rnd = new Random();
         public MainWindow()
         {
             InitializeComponent();
 
             logo.BeginInit();
-            logo.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\2000px-Minesweeper_unopened_square.svg.png");
+            logo.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\cellCovered.png");
             logo.EndInit();
 
             blank.BeginInit();
-            blank.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\76px-Minesweeper_0.svg.png");
+            blank.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box0.png");
             blank.EndInit();
 
             mine.BeginInit();
-            mine.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\mine.png");
+            mine.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\mine.png");
             mine.EndInit();
 
             mineClicked.BeginInit();
-            mineClicked.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\mineExploded.png");
+            mineClicked.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\mineExploded.png");
             mineClicked.EndInit();
 
             mineDisabled.BeginInit();
-            mineDisabled.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\flagIncorrect.png");
+            mineDisabled.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\flagIncorrect.png");
             mineDisabled.EndInit();
 
             marked.BeginInit();
-            marked.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\2000px-Minesweeper_flag.svg.png");
+            marked.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\flag.png");
             marked.EndInit();
 
             box1.BeginInit();
-            box1.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\box1.png");
+            box1.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box1.png");
             box1.EndInit();
 
             box2.BeginInit();
-            box2.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\box2.png");
+            box2.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box2.png");
             box2.EndInit();
 
             box3.BeginInit();
-            box3.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\box3.png");
+            box3.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box3.png");
             box3.EndInit();
 
             box4.BeginInit();
-            box4.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\box4.png");
+            box4.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box4.png");
             box4.EndInit();
 
             box5.BeginInit();
-            box5.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\box5.png");
+            box5.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box5.png");
             box5.EndInit();
 
             box6.BeginInit();
-            box6.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\box6.png");
+            box6.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box6.png");
             box6.EndInit();
 
             box7.BeginInit();
-            box7.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\box7.png");
+            box7.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box7.png");
             box7.EndInit();
 
             box8.BeginInit();
-            box8.UriSource = new Uri(@"C:\Users\user\source\repos\Minesweeper-master\Minesweeper\Resources\box8.png");
+            box8.UriSource = new Uri(@"\\data.sps-prosek.local\valesja15\Stažené\miny\box8.png");
             box8.EndInit();
 
         }
@@ -146,104 +147,220 @@ namespace Minesweeper
             System.Windows.Application.Current.MainWindow.Height = 0;
             System.Windows.Application.Current.MainWindow.Width = 0;
 
-            Random _rnd = new Random();
+
 
             for (int i = 0; i < rows; i++)
             {
+                MineField.Add(new List<Image>());
                 for (int o = 0; o < columns; o++)
                 {
-                    {
-                        int _random = _rnd.Next(1, 5);
-                        Image rect = new Image();
-                        Grid.SetColumn(rect, i);
-                        Grid.SetRow(rect, o);
-                        rect.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-                        rect.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
-                        if (_random == 1)
-                        {
-                            rect.Uid = "mine";
-                        }
-                        else
-                        {
-                            rect.Uid = "blank";
-                        }
-                        rect.MouseLeftButtonDown += new MouseButtonEventHandler(Check);
-                        rect.MouseRightButtonDown += new MouseButtonEventHandler(RightCheck);
-                        rect.Source = logo;
-                        grid.Children.Add(rect);
-                    }
+
+                    Image rect = new Image();
+                    Grid.SetColumn(rect, i);
+                    Grid.SetRow(rect, o);
+                    rect.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+                    rect.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
+
+                    rect.MouseLeftButtonDown += new MouseButtonEventHandler(Check);
+                    rect.MouseRightButtonDown += new MouseButtonEventHandler(RightCheck);
+                    rect.Source = logo;
+                    MineField[i].Add(rect);
+                    grid.Children.Add(rect);
+
+
                 }
                 grid.Width += 40;
                 grid.Height += 40;
                 System.Windows.Application.Current.MainWindow.Height += 40;
                 System.Windows.Application.Current.MainWindow.Width += 40;
             }
-
+            GenerateNumbers();
             grid.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
             grid.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
         }
-
-        public void Check(object sender, MouseButtonEventArgs e)
+        public void GenerateNumbers()
         {
-            string _uid = ((Image)sender).Uid;
-            if (_uid != "mineDisabled" || _uid != "blankDisabled")
+
+            int sizeI = grid.RowDefinitions.Count;
+            int sizeO = grid.ColumnDefinitions.Count;
+            int counter = 0;
+            double xd = sizeI * sizeO / (int)3;
+            if(xd < 1)
             {
-                if (_uid == "blank")
+                xd = 1;
+            }
+
+            while (counter < xd)
+            {
+                int i = _rnd.Next(0, sizeI);
+                int o = _rnd.Next(0, sizeO);
+                if (counter < xd)
                 {
-                    int _row;
-                    int _column;
-                    if (((Image)sender).Source != blank)
+                    if (MineField[i][o].Uid != "mine")
                     {
-                        ((Image)sender).Source = blank;
-                        _row = Grid.GetRow(((Image)sender));
-                        _column = Grid.GetColumn(((Image)sender));
-
-                    }
-                    else
-                    {
-                        _row = Grid.GetRow(((Image)sender));
-                        _column = Grid.GetColumn(((Image)sender));
-                    }
-
-                    Console.WriteLine(_row);
-                    Console.WriteLine(_column);
-
-                    List<Image> tiles = new List<Image>();
-
-                    for (int i = 0; i < 8; i++)
-                    {
-                        GetGridElement(grid, _row, _column);
-                    }
-                }
-
-                if (_uid == "mine")
-                {
-                    Console.WriteLine("You Lost");
-                    foreach (Image i in grid.Children)
-                    {
-                        if (i.Uid == "mine")
+                        MineField[i][o].Uid = "mine";
+                        counter++;
+                        if (counter >= xd)
                         {
-                            i.Source = mine;
-                            if (i == ((Image)sender))
-                            {
-                                i.Source = mineClicked;
-                            }
-                        }
-
-                        else if (i.Uid == "mineDisabled")
-                        {
-                            i.Source = mineDisabled;
-                        }
-
-                        else if (i.Uid == "blankDisabled")
-                        {
-                            i.Source = logo;
+                            break;
                         }
                     }
                 }
             }
+            for (int i = 0; i < sizeI; i++)
+            {
+                for (int o = 0; o < sizeO; o++)
+                {
+                    if (MineField[i][o].Uid != "mine")
+                    {
+                        SetPoint(i, o);
+                    }
+                }
+            }
+
+            DebugMineField();
         }
 
+        public void SetPoint(int i, int o)
+        {
+            /*   Debug.WriteLine(i + " " + o);
+               Debug.WriteLine(MineField.Count + " " + MineField[i].Count);*/
+            int sizeI = grid.RowDefinitions.Count;
+            int sizeO = grid.ColumnDefinitions.Count;
+            int Counter = 0;
+            if (i - 1 >= 0 && o - 1 >= 0)
+            {
+                if (MineField[i - 1][o - 1].Uid == "mine")
+                {
+                    Counter++;
+                }
+            }
+            if (i - 1 >= 0)
+            {
+                if (MineField[i - 1][o].Uid == "mine")
+                {
+                    Counter++;
+                }
+            }
+            if (o - 1 >= 0)
+            {
+                if (MineField[i][o - 1].Uid == "mine")
+                {
+                    Counter++;
+                }
+            }
+            if (i + 1 <= sizeI - 1 && o + 1 <= sizeO - 1)
+            {
+                if (MineField[i + 1][o + 1].Uid == "mine")
+                {
+                    Counter++;
+                }
+            }
+            if (o + 1 <= sizeI - 1)
+            {
+                if (MineField[i][o + 1].Uid == "mine")
+                {
+                    Counter++;
+                }
+            }
+            if (i + 1 <= sizeI - 1)
+            {
+                if (MineField[i + 1][o].Uid == "mine")
+                {
+                    Counter++;
+                }
+            }
+            if (i + 1 <= sizeI - 1 && o - 1 >= 0)
+            {
+                if (MineField[i + 1][o - 1].Uid == "mine")
+                {
+                    Counter++;
+                }
+            }
+            if (i - 1 >= 0 && o + 1 <= sizeO - 1)
+            {
+                if (MineField[i - 1][o + 1].Uid == "mine")
+                {
+                    Counter++;
+                }
+            }
+            if (Counter > 0)
+            {
+                MineField[i][o].Uid = Counter.ToString();
+
+            }
+            else
+            {
+                MineField[i][o].Uid = "blank";
+            }
+        }
+        public void Check(object sender, MouseButtonEventArgs e)
+        {
+            Check(((Image)sender));
+        }
+        public void Check(Image img)
+        {
+            string _uid = img.Uid;
+            if (_uid != "mineDisabled" || _uid != "blankDisabled")
+            {
+                if (_uid == "mine")
+                {
+                    img.Uid = "mineExploded";
+                    RevealAll();
+                }
+
+                else if (_uid == "blank")
+                {
+                    img.Source = blank;
+                    img.Uid = "blankDisabled";
+                    RevealAround(img);
+                }
+
+                else
+                {
+                    if (_uid == "1")
+                    {
+                        img.Source = box1;
+                        img.Uid = "blankDisabled";
+                    }
+                    else if (_uid == "2")
+                    {
+                        img.Source = box2;
+                        img.Uid = "blankDisabled";
+                    }
+                    else if (_uid == "3")
+                    {
+                        img.Source = box3;
+                        img.Uid = "blankDisabled";
+                    }
+                    else if (_uid == "4")
+                    {
+                        img.Source = box4;
+                        img.Uid = "blankDisabled";
+                    }
+                    else if (_uid == "5")
+                    {
+                        img.Source = box5;
+                        img.Uid = "blankDisabled";
+                    }
+                    else if (_uid == "6")
+                    {
+                        img.Source = box6;
+                        img.Uid = "blankDisabled";
+                    }
+                    else if (_uid == "7")
+                    {
+                        img.Source = box7;
+                        img.Uid = "blankDisabled";
+                    }
+                    else if (_uid == "8")
+                    {
+                        img.Source = box8;
+                        img.Uid = "blankDisabled";
+                    }
+                }
+            }
+        }
         public void RightCheck(object sender, MouseButtonEventArgs e)
         {
 
@@ -274,201 +391,125 @@ namespace Minesweeper
 
         }
 
-        int countBombs(int r, int c)
+        public void RevealAround(Image image)
         {
-            int bombCounter = 0;
-
-            for (int i = 0; i < grid.Children.Count; i++)
+            int sizeI = grid.RowDefinitions.Count;
+            int sizeO = grid.ColumnDefinitions.Count;
+            int i = Grid.GetColumn(image);
+            int o = Grid.GetRow(image);
+            if (i - 1 >= 0)
             {
-                UIElement e = grid.Children[i];
-                Image img = (Image)e;
-                if (Grid.GetRow(e) == r + 1 && Grid.GetColumn(e) == c)
+                if(MineField[i-1][o].Uid != "mine" && MineField[i - 1][o].Uid != "blankDisabled")
                 {
-                    if (e.Uid == "mine")
-                    {
-                        bombCounter++;
-                    }
-                }
-                else if (Grid.GetRow(e) == r && Grid.GetColumn(e) == c + 1)
-                {
-                    if (e.Uid == "mine")
-                    {
-                        bombCounter++;
-                    }
-                }
-                else if (Grid.GetRow(e) == r - 1 && Grid.GetColumn(e) == c)
-                {
-                    if (e.Uid == "mine")
-                    {
-                        bombCounter++;
-                    }
-                }
-                else if (Grid.GetRow(e) == r && Grid.GetColumn(e) == c - 1)
-                {
-                    if (e.Uid == "mine")
-                    {
-                        bombCounter++;
-                    }
-                }
-                else if (Grid.GetRow(e) == r + 1 && Grid.GetColumn(e) == c + 1)
-                {
-                    if (e.Uid == "mine")
-                    {
-                        bombCounter++;
-                    }
-                }
-                else if (Grid.GetRow(e) == r - 1 && Grid.GetColumn(e) == c - 1)
-                {
-                    if (e.Uid == "mine")
-                    {
-                        bombCounter++;
-                    }
-                }
-                else if (Grid.GetRow(e) == r + 1 && Grid.GetColumn(e) == c - 1)
-                {
-                    if (e.Uid == "mine")
-                    {
-                        bombCounter++;
-                    }
-                }
-                else if (Grid.GetRow(e) == r - 1 && Grid.GetColumn(e) == c + 1)
-                {
-                    if (e.Uid == "mine")
-                    {
-                        bombCounter++;
-                    }
+                    Check(MineField[i - 1][o]);
                 }
             }
+            if (o - 1 >= 0)
+            {
+                if (MineField[i][o - 1].Uid != "mine" && MineField[i][o - 1].Uid != "blankDisabled")
+                {
+                    Check(MineField[i][o - 1]);
+                }
+            }
+            if (o + 1 <= sizeI - 1)
+            {
+                if (MineField[i][o + 1].Uid != "mine" && MineField[i][o + 1].Uid != "blankDisabled")
+                {
+                    Check(MineField[i][o + 1]);
+                }
+            }
+            if (i + 1 <= sizeO - 1)
+            {
+                if (MineField[i + 1][o].Uid != "mine" && MineField[i + 1][o].Uid != "blankDisabled")
+                {
+                    Check(MineField[i + 1][o]);
 
-            return bombCounter;
+                }
+            }
         }
-
-        void GetGridElement(Grid g, int r, int c)
+        public void RevealAll()
         {
-            List<Image> imgList = new List<Image>();
+            int sizeI = grid.RowDefinitions.Count;
+            int sizeO = grid.ColumnDefinitions.Count;
 
-            int bombCounter = 0;
-
-            for (int i = 0; i < g.Children.Count; i++)
+            for (int i = 0; i < sizeI; i++)
             {
-                UIElement e = g.Children[i];
-                Image img = (Image)e;
-                if (Grid.GetRow(e) == r + 1 && Grid.GetColumn(e) == c)
+                for (int o = 0; o < sizeO; o++)
                 {
-                    if (e.Uid == "blank")
+                    if (MineField[i][o].Uid == "mine")
                     {
-                        bombCounter = countBombs(Grid.GetRow(e), Grid.GetColumn(e));
-                        imgList.Add(img);
+                        MineField[i][o].Source = mine;
+                    }
+                    else if (MineField[i][o].Uid == "blank")
+                    {
+                        MineField[i][o].Source = blank;
+                    }
+                    else if (MineField[i][o].Uid == "mineExploded")
+                    {
+                        MineField[i][o].Source = mineClicked;
+                    }
+                    else
+                    {
+                        if (MineField[i][o].Uid == "1")
+                        {
+                            MineField[i][o].Source = box1;
+                        }
+                        else if (MineField[i][o].Uid == "2")
+                        {
+                            MineField[i][o].Source = box2;
+                        }
+                        else if (MineField[i][o].Uid == "3")
+                        {
+                            MineField[i][o].Source = box3;
+                        }
+                        else if (MineField[i][o].Uid == "4")
+                        {
+                            MineField[i][o].Source = box4;
+                        }
+                        else if (MineField[i][o].Uid == "5")
+                        {
+                            MineField[i][o].Source = box5;
+                        }
+                        else if (MineField[i][o].Uid == "6")
+                        {
+                            MineField[i][o].Source = box6;
+                        }
+                        else if (MineField[i][o].Uid == "7")
+                        {
+                            MineField[i][o].Source = box7;
+                        }
+                        else if (MineField[i][o].Uid == "8")
+                        {
+                            MineField[i][o].Source = box8;
+                        }
                     }
                 }
-                else if (Grid.GetRow(e) == r && Grid.GetColumn(e) == c + 1)
-                {
-                    if (e.Uid == "blank")
-                    {
-                        bombCounter = countBombs(Grid.GetRow(e), Grid.GetColumn(e));
-                        imgList.Add(img);
-                    }
-                }
-                else if (Grid.GetRow(e) == r - 1 && Grid.GetColumn(e) == c)
-                {
-                    if (e.Uid == "blank")
-                    {
-                        bombCounter = countBombs(Grid.GetRow(e), Grid.GetColumn(e));
-                        imgList.Add(img);
-                    }
-                }
-                else if (Grid.GetRow(e) == r && Grid.GetColumn(e) == c - 1)
-                {
-                    if (e.Uid == "blank")
-                    {
-                        bombCounter = countBombs(Grid.GetRow(e), Grid.GetColumn(e));
-                        imgList.Add(img);
-                    }
-                }
-                else if (Grid.GetRow(e) == r + 1 && Grid.GetColumn(e) == c + 1)
-                {
-                    if (e.Uid == "blank")
-                    {
-                        bombCounter = countBombs(Grid.GetRow(e), Grid.GetColumn(e));
-                        imgList.Add(img);
-                    }
-                }
-                else if (Grid.GetRow(e) == r - 1 && Grid.GetColumn(e) == c - 1)
-                {
-                    if (e.Uid == "blank")
-                    {
-                        bombCounter = countBombs(Grid.GetRow(e), Grid.GetColumn(e));
-                        imgList.Add(img);
-                    }
-                }
-                else if (Grid.GetRow(e) == r + 1 && Grid.GetColumn(e) == c - 1)
-                {
-                    if (e.Uid == "blank")
-                    {
-                        bombCounter = countBombs(Grid.GetRow(e), Grid.GetColumn(e));
-                        imgList.Add(img);
-                    }
-                }
-                else if (Grid.GetRow(e) == r - 1 && Grid.GetColumn(e) == c + 1)
-                {
-                    if (e.Uid == "blank")
-                    {
-                        bombCounter = countBombs(Grid.GetRow(e), Grid.GetColumn(e));
-                        imgList.Add(img);
-                    }
-                }
-
-                if (bombCounter > 0)
-                {
-                    if (bombCounter == 1)
-                    {
-                        img.Source = box1;
-                    }
-                    else if (bombCounter == 2)
-                    {
-                        img.Source = box2;
-                    }
-                    else if (bombCounter == 3)
-                    {
-                        img.Source = box3;
-                    }
-                    else if (bombCounter == 4)
-                    {
-                        img.Source = box4;
-                    }
-                    else if (bombCounter == 5)
-                    {
-                        img.Source = box5;
-                    }
-                    else if (bombCounter == 6)
-                    {
-                        img.Source = box6;
-                    }
-                    else if (bombCounter == 7)
-                    {
-                        img.Source = box7;
-                    }
-                    else if (bombCounter == 8)
-                    {
-                        img.Source = box8;
-                    }
-                }
-
-                bombCounter = 0;
             }
-
-            if (!running)
+        }
+        public void DebugMineField()
+        {
+            int sizeI = grid.RowDefinitions.Count;
+            int sizeO = grid.ColumnDefinitions.Count;
+            for (int i = 0; i < sizeI; i++)
             {
-                running = true;
-                foreach (Image tile in imgList)
+                for (int o = 0; o < sizeO; o++)
                 {
-                    GetGridElement(grid, Grid.GetRow(tile), Grid.GetColumn(tile));
-                    if (imgList.IndexOf(tile) == imgList.Count - 1)
+                    if (MineField[o][i].Uid == "blank")
                     {
-                        running = false;
+                        Debug.Write("[ ]");
+                    }
+                    else if (MineField[o][i].Uid == "mine")
+                    {
+                        Debug.Write("[x]");
+                    }
+                    else
+                    {
+                        Debug.Write("[" + MineField[o][i].Uid + "]");
                     }
                 }
+                Debug.WriteLine(" ");
             }
         }
     }
+ 
 }
